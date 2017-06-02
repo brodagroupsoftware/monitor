@@ -1,0 +1,22 @@
+[
+    {
+        "host" : "http://www.google.ca",
+        "path" : "/",
+        "method" : "GET"
+    },
+    {
+        "host" : "http://www.facebook.ca",
+        "path" : "/",
+        "method" : "GET"
+    },
+    {
+        "host" : "http://www.linkedin.ca",
+        "path" : "/",
+        "method" : "GET"
+    },
+    {
+        "host" : "http://www.nytimes.ca",
+        "path" : "/",
+        "method" : "GET"
+    }
+]
