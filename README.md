@@ -99,3 +99,6 @@ the output in the desired "console" or "dashboard" format
 them into JSON messages to the parent (main.js)
 - dashboard.js:  Consumes JSON messages and formats them for viewing on a
 rolling update dashboard
+- testcases/simple.js: Contains the mocha test case that execute site
+monitoring; the provided test cases sycles through the elements of the
+configuration file to determine which sites to test
