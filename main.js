@@ -1,8 +1,7 @@
 var program = require('commander');
-var sprintf = require('sprintf-js').sprintf;
 var spawn = require('child_process').spawn;
 
-var screen = null;
+var dashboard = null;
 
 var options = cli();
 
@@ -25,7 +24,7 @@ function execute(){
     child.stderr.on('data', function(data) {
         console.log('An error occurred: ' + data);
     });
-    child.on('close', function(code) {
+    child.on('close', function() {
         // console.log('closing code: ' + code);
     });
 
@@ -36,7 +35,7 @@ function execute(){
     setTimeout(function () {
         // console.log('Interval expired: %s', interval);
         execute();
-    }, interval)
+    }, interval);
 
 }
 
@@ -46,12 +45,12 @@ function summarize(results){
         results.all.forEach(function(result){
             console.log('%j', result);
         });
-    } else if( options.output == 'screen'){
+    } else if( options.output == 'dashboard'){
 
-        if (screen == null ){
-            screen = require('./screen.js')();
+        if (dashboard == null ){
+            dashboard = require('./dashboard.js')();
 
-            var screenOptions = {
+            var dashboardOptions = {
                 title: 'Site Status',
                 topRow: 0,
                 leftColumn: 0,
@@ -78,15 +77,15 @@ function summarize(results){
                     }
                 ]
             };
-            screen.init(screenOptions);
+            dashboard.init(dashboardOptions);
         }
 
         results.all.forEach(function(result){
-            screen.append(result);
+            dashboard.append(result);
         });
-        screen.log();
+        dashboard.log();
     } else {
-        throw new Exception('Unknown output type: ' + options.output);
+        throw new Error('Unknown output type: ' + options.output);
     }
 
 }
@@ -116,7 +115,6 @@ function cli(){
     }
 
     var interval = program.interval;
-    var input = program.input;
 
     var options = {
         'command': process.argv,

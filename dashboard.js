@@ -2,7 +2,6 @@
 
 var blessed = require('blessed');
 var contrib = require('blessed-contrib');
-var sprintf = require("sprintf-js").sprintf;
 var _ = require('lodash');
 
 var screen = null;
@@ -13,7 +12,7 @@ var options = null;
 var snapshot = [];
 
 
-var screen = function(){
+var dashboard = function(){
     return {
         init: init,
         append: append,
@@ -26,15 +25,15 @@ function init(screenOptions){
     options = screenOptions;
 
     screen = blessed.screen();
-    screen.key(['escape', 'q', 'C-c'], function(ch, key) {
-      return process.exit(0);
+    screen.key(['escape', 'q', 'C-c'], function() {
+        return process.exit(0);
     });
 
     grid = new contrib.grid( {
-                    rows: screenOptions.rowHeightInPixels,
-                    cols: screenOptions.colWidthInPixels,
-                    screen: screen
-                });
+        rows: screenOptions.rowHeightInPixels,
+        cols: screenOptions.colWidthInPixels,
+        screen: screen
+    });
 
     var widths = [];
     screenOptions.columns.forEach(function(column){
@@ -42,23 +41,23 @@ function init(screenOptions){
     });
 
     table = grid.set(
-                screenOptions.topRow, screenOptions.leftColumn,
-                screenOptions.rowSpan, screenOptions.colSpan,
-                contrib.table,
-                {
-                    keys: true,
-                    fg: 'green',
-                    label: screenOptions.title,
-                    columnSpacing: 1,
-                    columnWidth: widths
-                });
+        screenOptions.topRow, screenOptions.leftColumn,
+        screenOptions.rowSpan, screenOptions.colSpan,
+        contrib.table,
+        {
+            keys: true,
+            fg: 'green',
+            label: screenOptions.title,
+            columnSpacing: 1,
+            columnWidth: widths
+        });
     table.focus();
 }
 
 // Append an item to the snapshot of test case results
 function append(json){
     var row = [];
-    _.forEach(json, function(value, key) {
+    _.forEach(json, function(value) {
         row.push(value);
     });
 
@@ -77,7 +76,7 @@ function log(){
     });
 
     // Write the snapshot to the screen table
-    table.setData({headers: headers, data: snapshot})
+    table.setData({headers: headers, data: snapshot});
 
     // Clear all data values from the snapshot
     snapshot = [];
@@ -85,7 +84,7 @@ function log(){
 
 // Render the screen (show the data) periodically
 setInterval(function() {
-   screen.render()
+    screen.render();
 }, 500);
 
-module.exports = screen;
+module.exports = dashboard;

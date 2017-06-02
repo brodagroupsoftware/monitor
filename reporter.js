@@ -1,5 +1,4 @@
 var mocha = require('mocha');
-var sprintf = require("sprintf-js").sprintf;
 
 var statistics = {};
 statistics['pass'] = [];
@@ -14,9 +13,9 @@ function Reporter(runner) {
     runner.on('pass', function(test){
 
         var item = {};
-        var duration = test.duration;
-        var title = test.title;
-        var fillTitle = test.fullTitle();
+        // var duration = test.duration;
+        // var title = test.title;
+        // var fillTitle = test.fullTitle();
         item['testcase'] = test.fullTitle();
         item['result'] = 'PASS';
         item['duration'] = test.duration;
@@ -27,7 +26,7 @@ function Reporter(runner) {
         // console.log('--- PASS: %s', test.fullTitle());
     });
 
-    runner.on('fail', function(test, err){
+    runner.on('fail', function(test){
 
         // console.log('fail');
         var item = {};
