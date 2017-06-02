@@ -13,6 +13,75 @@ site availability is sent to the terminal ("console"), or to a rolling update te
 The use of Mocha test cases is a specific design choice which allows for
 reuse of previously created unit test cases for testing site functionality.   
 
+# Installation
+
+1.  Clone the github repo:
+
+```
+    git clone https://github.com/brodagroupsoftware/monitor.git
+```
+
+2.  Monitor is a typical node.js program and can be installed using the following
+command (from the installation directory)
+
+```
+    npm install
+```
+
+3.  Run the program:
+
+```
+    node main.js -o console
+```
+
+4.  Program Options;
+
+```
+    Usage: node main.js [options]
+
+      Options:
+
+        -h, --help                 output usage information
+        -V, --version              output the version number
+        -v, --verbose              verbose output
+        -I, --interval [interval]  Time interval, in seconds, between refresh cycles (default: 5 second)
+        -o, --output <output>      Output destination (dashboard, console, default: console)
+
+    Example:  To view the dashboard:
+
+        node main.js -o dashboard
+
+    Example:  To view the console output
+
+        node main.js -o console
+```
+
+# Configuration
+
+A JSON configuration file, config.js in the main program directory,
+is used to determine which sites are monitored.  An example of a configuration
+file to monitor availaiblity of google and facebook is illustrated below:
+
+```
+    [
+        {
+            "host" : "http://www.google.ca",
+            "path" : "/",
+            "method" : "GET"
+        },
+        {
+            "host" : "http://www.facebook.ca",
+            "path" : "/",
+            "method" : "GET"
+        }
+    ]
+```
+
+Each site to be monitored is defined by:
+- host:  the fully qualified host (including port, if needed)
+- path:  the URI path in the host to monitor
+- method: the HTTP operation (GET/POST/PUT/DELETE etc) to be executed
+
 # Key Components
 
 Monitor is composed of a number of components:
