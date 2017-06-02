@@ -99,7 +99,7 @@ function cli(){
         .version('0.0.1')
         .option('-v, --verbose', 'verbose output', defaultVerbose)
         .option('-I, --interval [interval]', 'Time interval, in seconds, between refresh cycles (default: 5 second)', defaultInterval)
-        .option('-o, --output <output>', 'Output destination (screen, console, default: console)', /^(screen|console)$/i, 'console')
+        .option('-o, --output <output>', 'Output destination (dashboard, console, default: console)', /^(dashboard|console)$/i)
         .parse(process.argv);
 
     // Optional parameter: --verbose (default is false)
@@ -109,11 +109,13 @@ function cli(){
     }
 
     // Optional parameter: --output (default is console)
-    var output = 'console';
-    if (program.output != null || program.output == false) {
-        output = program.output;
+    if (program.output == null || program.output === true) {
+        console.log('Invalid output type');
+        program.outputHelp();
+        process.exit();
     }
 
+    var output = program.output;
     var interval = program.interval;
 
     var options = {
